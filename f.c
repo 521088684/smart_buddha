@@ -117,4 +117,3 @@ float My_Sqrt(float a) {
     y  = y * ( f - ( x * y * y ) );
     return a * y;
 }
-
