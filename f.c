@@ -103,17 +103,18 @@ int My_Div(int a, int b)
 
 }
 
-float My_Sqrt(float a) {  
-    long i;   
-    float x, y;   
-    const float f = 1.5F;    
-    x = a * 0.5F;  
-    y  = a;   
-    i  = * ( long * ) &y;    
-    i  = 0x5f3759df - ( i >> 1 );    
-    y  = * ( float * ) &i;    
-    y  = y * ( f - ( x * y * y ) );    
+float My_Sqrt(float a) {
+    long i;
+    float x, y;
+    const float f = 1.5F;
+    x = a * 0.5F;
+    y  = a;
+    i  = * ( long * ) &y;
+    i  = 0x5f3759df - ( i >> 1 );
+    y  = * ( float * ) &i;
     y  = y * ( f - ( x * y * y ) );
-    y  = y * ( f - ( x * y * y ) );    
-    return a * y;    
-}   
+    y  = y * ( f - ( x * y * y ) );
+    y  = y * ( f - ( x * y * y ) );
+    return a * y;
+}
+
