@@ -68,7 +68,7 @@ void butterworth_z_zeros(double _Complex * zeros, int order)
     }
 }
 
-void butter(double * a, double * b, int order, double Fs)
+void butter_lowpass(double * a, double * b, int order, double Fs)
 {
     double _Complex p_poles[MAX_SIZE];
     double _Complex z_poles[MAX_SIZE];
@@ -118,4 +118,22 @@ void lfilter(double * y, double * x, int w_size , double * a, double * b, int f_
         }
     }
     return;
+}
+
+int mark_peak(bool * label, double * x, int n)
+{
+    label[0] = false;
+    label[n - 1] = false;
+    int count = 0;
+    for (int i = 1; i < n - 1; ++i)
+    {
+        if (x[i] > x[i - 1] && x[i] >= x[i + 1])
+        {
+            label[i] = true;
+            count++;
+        }
+        else
+            label[i] = false;
+    }
+    return count;
 }

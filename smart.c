@@ -1,21 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <complex.h>
 #include "smart.h"
-#include "f.c"
-#include "butter.c"
+#include "feature.c"
 
-void my_count(double * acc, double * gyro)
+void my_count(double * acc_list, double * gyro_list)
 {
-    double a[ORDER + 1] = {0.0};
-    double b[ORDER + 1] = {0.0};
-    butter(b, a, ORDER, FREQUENCY);
-
-    double acc_lowpath[FREQUENCY * ROUND] = {0.0};
-    lfilter(acc_lowpath, acc, FREQUENCY * ROUND, a, b, ORDER + 1);
-    double gyro_lowpath[FREQUENCY * ROUND] = {0.0};
-    lfilter(gyro_lowpath, gyro, FREQUENCY * ROUND, a, b, ORDER + 1);
+    double feature[10] = {0.0};
+    my_feature(feature, 10, acc_list, gyro_list, FREQUENCY * ROUND, FREQUENCY);
 }
 
 void my_main(int accX, int accY, int accZ, int gyroX, int gyroY, int gyroZ)
