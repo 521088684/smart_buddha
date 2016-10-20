@@ -39,12 +39,12 @@ int main()
 
     my_count(acc, gyro);
 
-    int a, b, c, d, e, f;
+/*    int a, b, c, d, e, f;
     while(1)
     {
         scanf("%d %d %d %d %d %d", &a, &b, &c, &d, &e, &f);
         my_main(a, b, c, d, e, f);
-    }
+    }*/
 
     printf("Bye world!\n");
     return 0;

@@ -104,15 +104,14 @@ void lfilter(double * y, double * x, int w_size , double * a, double * b, int f_
 {
     for (int i = 0; i < w_size; ++i)
     {
-        y[i] = 0.0;
         int tmp_size = f_size;
         if (i < tmp_size)
             tmp_size = i;
-        for (int j = 0; j < tmp_size; ++j)
+        for (int j = 0; j <= tmp_size; ++j)
         {
             y[i] += b[j] * x[i - j];
         }
-        for (int j = 1; j < tmp_size; ++j)
+        for (int j = 1; j <= tmp_size; ++j)
         {
             y[i] -= a[f_size - 1 - j] * y[i - j];
         }

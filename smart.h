@@ -1,4 +1,4 @@
-#define FREQUENCY 10.0
+#define FREQUENCY 10
 #define ROUND 1
 
 static int step_num = 0;
