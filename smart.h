@@ -8,3 +8,4 @@ static int array_index = 0;
 static int abcdef[FREQUENCY * ROUND][6] = {0};
 static double acc[FREQUENCY * ROUND] = {0};
 static double gyro[FREQUENCY * ROUND] = {0};
+

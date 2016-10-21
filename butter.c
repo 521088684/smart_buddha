@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <complex.h>
 #include <math.h>
 #include <string.h>
 #include <stdbool.h>
+#include "butter.h"
 #define MAX_SIZE 40
 
 void zeros2coeffs(double _Complex * zeros, double _Complex * coeffs, int size)
