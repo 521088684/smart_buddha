@@ -41,7 +41,6 @@ void getfeature(double * y, double * x, int x_size, int num_sample)
 
 void my_feature(double * feature, int f_size, double * acclist, double * gyrolist, int w_size, double frequency)
 {
-    printf("%d\n", f_size);
     double * acclist_smoothed = (double *) malloc (My_Mul(w_size, sizeof(double)));;
     double * gyrolist_smoothed = (double *) malloc (My_Mul(w_size, sizeof(double)));;
 
