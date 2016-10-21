@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "butter.c"
-#include "f.c"
 #include "feature.h"
+#include "butter.h"
+#include "f.h"
 
 void getfeature(double * y, double * x, int x_size, int num_sample)
 {
@@ -89,7 +89,7 @@ void my_feature(double * feature, int f_size, double * acclist, double * gyrolis
         printf("%d\n", 4 + featureUnit_size * 3);
         getfeature(& feature[4 + featureUnit_size * 3], & acclist[indexstart], indexstart - indexend, NUM_SAMPLE);
         printf("%d\n", 4 + featureUnit_size * 4);
-        for (int j = 0; j < 4 + featureUnit_size * 4; ++i)
+        for (int j = 0; j < 4 + featureUnit_size * 4; ++j)
             printf("%lf ", feature[j]);
         printf("\n");
     }

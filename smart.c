@@ -4,7 +4,8 @@
 #include <math.h>
 #include <complex.h>
 #include "smart.h"
-#include "feature.c"
+#include "f.h"
+#include "feature.h"
 
 void my_count(double * acc_list, double * gyro_list)
 {
@@ -21,8 +22,8 @@ void my_main(int accX, int accY, int accZ, int gyroX, int gyroY, int gyroZ)
     abcdef[array_index][4] = gyroY;
     abcdef[array_index][5] = gyroZ;
 
-    acc[array_index] = My_Sqrt(double(My_Add(My_Mul(accZ, accZ), My_Add(My_Mul(accX, accX), My_Mul(accY, accY)))));
-    gyro[array_index] = My_Sqrt(double(My_Add(My_Mul(gyroZ, gyroZ), My_Add(My_Mul(gyroX, gyroX), My_Mul(gyroY, gyroY)))));
+    acc[array_index] = My_Sqrt((double) My_Add(My_Mul(accZ, accZ), My_Add(My_Mul(accX, accX), My_Mul(accY, accY))));
+    gyro[array_index] = My_Sqrt((double) My_Add(My_Mul(gyroZ, gyroZ), My_Add(My_Mul(gyroX, gyroX), My_Mul(gyroY, gyroY))));
 
     array_index++;
     if (array_index == FREQUENCY * ROUND)

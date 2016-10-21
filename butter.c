@@ -2,11 +2,12 @@
 #include <complex.h>
 #include <math.h>
 #include <string.h>
+#include <stdbool.h>
 #define MAX_SIZE 40
 
 void zeros2coeffs(double _Complex * zeros, double _Complex * coeffs, int size)
 {
-    int * b = new int[size + 1];
+    int * b = (int *) malloc ((size + 1) * sizeof(int));
     memset(b, 0, sizeof(int) * (size + 1));
     int i = 0;
     while (!b[size])
@@ -27,7 +28,7 @@ void zeros2coeffs(double _Complex * zeros, double _Complex * coeffs, int size)
         }
         coeffs[size - subset_size] += summand;
     }
-    delete [] b;
+    free(b);
     for (int i = (size + 1) % 2; i < size; i += 2)
     {
         coeffs[i] = -coeffs[i];
