@@ -8,8 +8,8 @@
 
 void my_count(double * acc_list, double * gyro_list)
 {
-    double feature[10] = {0.0};
-    my_feature(feature, 10, acc_list, gyro_list, FREQUENCY * ROUND, FREQUENCY);
+    double feature[4 + 8 * 4] = {0.0};
+    my_feature(feature, 4 + 8 * 4, acc_list, gyro_list, FREQUENCY * ROUND, FREQUENCY);
 }
 
 void my_main(int accX, int accY, int accZ, int gyroX, int gyroY, int gyroZ)

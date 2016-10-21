@@ -104,16 +104,13 @@ int My_Div(int a, int b)
 }
 
 double My_Sqrt(double a) {
-    long i;
-    double x, y;
-    const double f = 1.5F;
-    x = a * 0.5F;
-    y  = a;
-    i  = * ( long * ) &y;
-    i  = 0x5f3759df - ( i >> 1 );
-    y  = * ( double * ) &i;
-    y  = y * ( f - ( x * y * y ) );
-    y  = y * ( f - ( x * y * y ) );
-    y  = y * ( f - ( x * y * y ) );
-    return a * y;
+    double x,y;
+    x=0.0;
+    y=a/2;
+    while(x!=y)
+    {
+        x=y;
+        y=(x+a/x)/2;
+    }
+    return x;
 }

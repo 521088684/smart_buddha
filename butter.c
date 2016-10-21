@@ -68,7 +68,7 @@ void butterworth_z_zeros(double _Complex * zeros, int order)
     }
 }
 
-void butter_lowpass(double * a, double * b, int order, double Fs)
+void butter_lowpass(double * a, double * b, double Co, double Fs, int order)
 {
     double _Complex p_poles[MAX_SIZE];
     double _Complex z_poles[MAX_SIZE];
@@ -78,7 +78,7 @@ void butter_lowpass(double * a, double * b, int order, double Fs)
 
     double _Complex z_zeros[MAX_SIZE];
 
-    double analog_cutoff = 1.33;//analog freq
+    double analog_cutoff = Co;//analog freq
     double cutoff = warp_freq(analog_cutoff, Fs);//corresponding digital freq
 
     butterworth_poles(p_poles, order, cutoff);
