@@ -124,6 +124,8 @@ void lfilter(double * y, double * x, int w_size , double * a, double * b, int f_
 
 int mark_peak(bool * label, double * x, int n)
 {
+    if (n == 0)
+        return 0;
     label[0] = false;
     label[n - 1] = false;
     int count = 0;

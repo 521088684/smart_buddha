@@ -1,6 +1,3 @@
-#define ORDER 6
-#define CUTOFF 1.33
-#define PEAKSTEP 2
-#define NUM_SAMPLE 2
 void getfeature(double * y, double * x, int x_size, int num_sample);
-void my_feature(double * feature, int f_size, double * acclist, double * gyrolist, int w_size, double frequency);
+void my_feature(double * feature, double * acclist, double * gyrolist, double * acclist_smoothed, double * gyrolist_smoothed, int list_size, int peakstep, int num_sample);
+

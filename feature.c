@@ -4,7 +4,6 @@
 #include <math.h>
 #include <string.h>
 #include "feature.h"
-#include "butter.h"
 #include "f.h"
 
 void getfeature(double * y, double * x, int x_size, int num_sample)
@@ -39,46 +38,19 @@ void getfeature(double * y, double * x, int x_size, int num_sample)
         y[i] = x[My_Div(My_Mul(x_size, i - 6), num_sample)];
 }
 
-void my_feature(double * feature, int f_size, double * acclist, double * gyrolist, int w_size, double frequency)
+void my_feature(double * feature, double * acclist, double * gyrolist, double * acclist_smoothed, double * gyrolist_smoothed, int list_size, int peakstep, int num_sample)
 {
-    double * acclist_smoothed = (double *) malloc (My_Mul(w_size, sizeof(double)));;
-    double * gyrolist_smoothed = (double *) malloc (My_Mul(w_size, sizeof(double)));;
-
-    double a[ORDER + 1] = {0.0};
-    double b[ORDER + 1] = {0.0};
-    butter_lowpass(b, a, CUTOFF, frequency, ORDER);
-
-    lfilter(acclist_smoothed, acclist, w_size, a, b, ORDER + 1);
-    lfilter(gyrolist_smoothed, gyrolist, w_size, a, b, ORDER + 1);
-    bool * peakLabel = (bool *) malloc (My_Mul(w_size, sizeof(double)));
-    int peakCount = mark_peak(peakLabel, gyrolist_smoothed, w_size);
-    //if (peanCount <= 10)
-    //  return NULL;
-    int * peaks = (int *) malloc (My_Mul(peakCount, sizeof(int)));
-    int index_tmp = 0;
-    for (int i = 0; i < w_size; ++i)
-        if (peakLabel[i])
-            peaks[index_tmp++] = i;
-    for (int i = 0; i < peakCount - PEAKSTEP + 1; ++i)
-    {
-        double curpeakgyroval = gyrolist_smoothed[peaks[i]];
-        double curpeakaccval = acclist_smoothed[peaks[i]];
-        double peakspace = (peaks[i + PEAKSTEP] - peaks[i]) / PEAKSTEP;
-        double peakdiffsquare = pow(gyrolist_smoothed[peaks[i]] - gyrolist_smoothed[peaks[i + PEAKSTEP]], 2.0);
-        int indexstart = peaks[i];
-        int indexend = peaks[i + PEAKSTEP];
-        const int featureUnit_size = 6 + NUM_SAMPLE;
-        feature[0] = curpeakgyroval;
-        feature[1] = curpeakaccval;
-        feature[2] = peakspace;
-        feature[3] = peakdiffsquare;
-        getfeature(& feature[4], & gyrolist_smoothed[indexstart], indexend - indexstart, NUM_SAMPLE);
-        getfeature(& feature[4 + featureUnit_size], & acclist_smoothed[indexstart], indexend - indexstart, NUM_SAMPLE);
-        getfeature(& feature[4 + featureUnit_size * 2], & gyrolist[indexstart], indexend - indexstart, NUM_SAMPLE);
-        getfeature(& feature[4 + featureUnit_size * 3], & acclist[indexstart], indexend - indexstart, NUM_SAMPLE);
-    }
-    free(acclist_smoothed);
-    free(gyrolist_smoothed);
-    free(peakLabel);
-    free(peaks);
+    double curpeakgyroval = gyrolist_smoothed[0];
+    double curpeakaccval = acclist_smoothed[0];
+    double peakspace = (double) list_size / peakstep;
+    double peakdiffsquare = pow(gyrolist_smoothed[0] - gyrolist_smoothed[list_size], 2.0);
+    const int featureUnit_size = 6 + num_sample;
+    feature[0] = curpeakgyroval;
+    feature[1] = curpeakaccval;
+    feature[2] = peakspace;
+    feature[3] = peakdiffsquare;
+    getfeature(& feature[4], & gyrolist_smoothed[0], list_size, num_sample);
+    getfeature(& feature[4 + featureUnit_size], & acclist_smoothed[0], list_size, num_sample);
+    getfeature(& feature[4 + featureUnit_size * 2], & gyrolist[0], list_size, num_sample);
+    getfeature(& feature[4 + featureUnit_size * 3], & acclist[0], list_size, num_sample);
 }
