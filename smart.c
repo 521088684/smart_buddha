@@ -29,6 +29,7 @@ void my_count(double * acc_list, double * gyro_list, int w_size)
     {
         double * feature = (double *) malloc (My_Mul(FEATURE_SIZE, sizeof(double)));
         my_feature(feature, & acc_list[peaks[i]], & gyro_list[peaks[i]], & acc_list_smoothed[peaks[i]], & gyro_list_smoothed[peaks[i]], peaks[i + PEAKSTEP] - peaks[i], PEAKSTEP, NUM_SAMPLE);
+        int label = my_predict(feature, FEATURE_SIZE);
         free(feature);
     }
     free(acc_list_smoothed);
