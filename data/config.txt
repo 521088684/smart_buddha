@@ -1,0 +1,7 @@
+fz1.txt.6 1.0 train sit_with_left_action
+fz2.txt.6 0.0 train home_with_left
+fz3.txt.6 1.0 train sit_with_right_action
+fz4.txt.6 0.0 train home_with_right
+#fz5.txt.6 walkandfozu test home_with_right
+fz6.txt.6 1.0 test sit_with_left_action
+fz7.txt.6 0.0 test home_with_left

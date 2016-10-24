@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <float.h>
 #include "feature.h"
 #include "f.h"
 
@@ -30,12 +31,21 @@ void getfeature(double * y, double * x, int x_size, int num_sample)
         if (x[i] < x[i - 1] && x[i] <= x[i + 1]) y[5]++;
     }
     y[2] /= x_size;
-    double tmp = 0.0;
+    long double tmp = 0.0;
     for (int i = 0; i < x_size; ++i)
-        tmp += pow(x[i] - y[2], 2.0);
-    y[3] = My_Sqrt(tmp / x_size);
+    {
+        tmp += (x[i] - y[2]) * (x[i] - y[2]);
+        if (tmp > DBL_MAX)
+        {
+            tmp = 0.0;
+            break;
+        }
+    }
+    y[3] = My_Sqrt((double) (tmp / x_size));
     for (int i = 6; i < 6 + num_sample; ++i)
+    {
         y[i] = x[My_Div(My_Mul(x_size, i - 6), num_sample)];
+    }
 }
 
 void my_feature(double * feature, double * acclist, double * gyrolist, double * acclist_smoothed, double * gyrolist_smoothed, int list_size, int peakstep, int num_sample)

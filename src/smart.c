@@ -7,6 +7,7 @@
 #include "f.h"
 #include "butter.h"
 #include "feature.h"
+#include "predict.h"
 
 void my_count(double * acc_list, double * gyro_list, int w_size)
 {
@@ -29,7 +30,8 @@ void my_count(double * acc_list, double * gyro_list, int w_size)
     {
         double * feature = (double *) malloc (My_Mul(FEATURE_SIZE, sizeof(double)));
         my_feature(feature, & acc_list[peaks[i]], & gyro_list[peaks[i]], & acc_list_smoothed[peaks[i]], & gyro_list_smoothed[peaks[i]], peaks[i + PEAKSTEP] - peaks[i], PEAKSTEP, NUM_SAMPLE);
-        int label = my_predict(feature, FEATURE_SIZE);
+        int label = my_predict(feature, FEATURE_SIZE, SVM_MODEL, THRESHOLD);
+        printf("%d/%d %d\n", i, peakCount - NUM_OF_PEAKS_AFTER - NUM_OF_PEAKS_BEFORE, label);
         free(feature);
     }
     free(acc_list_smoothed);
@@ -47,8 +49,8 @@ void my_main(int accX, int accY, int accZ, int gyroX, int gyroY, int gyroZ)
     abcdef[array_index][4] = gyroY;
     abcdef[array_index][5] = gyroZ;
 
-    acc[array_index] = My_Sqrt((double) My_Add(My_Mul(accZ, accZ), My_Add(My_Mul(accX, accX), My_Mul(accY, accY))));
-    gyro[array_index] = My_Sqrt((double) My_Add(My_Mul(gyroZ, gyroZ), My_Add(My_Mul(gyroX, gyroX), My_Mul(gyroY, gyroY))));
+    acc[array_index] = My_Sqrt((double) My_Mul(accZ, accZ) +  (double) My_Mul(accX, accX) +  (double) My_Mul(accY, accY));
+    gyro[array_index] = My_Sqrt((double) My_Mul(gyroZ, gyroZ) + (double) My_Mul(gyroX, gyroX) +  (double) My_Mul(gyroY, gyroY));
 
     array_index++;
     if (array_index == QUEUE_SIZE)
@@ -56,6 +58,8 @@ void my_main(int accX, int accY, int accZ, int gyroX, int gyroY, int gyroZ)
         my_count(acc, gyro, QUEUE_SIZE);
         array_index = 0;
         memset(abcdef, 0, sizeof(abcdef));
+        memset(acc, 0.0, sizeof(acc));
+        memset(gyro, 0.0, sizeof(gyro));
     }
 }
 
@@ -64,7 +68,6 @@ int main()
     printf("Hello world!\n");
 
     int a, b, c, d, e, f;
-
     for (int i = 0; i < QUEUE_SIZE; i++)
     {
         scanf("%d %d %d %d %d %d", &a, &b, &c, &d, &e, &f);
