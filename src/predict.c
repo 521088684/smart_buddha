@@ -10,7 +10,7 @@ int my_predict(double * feature, int f_size, double * model, double thredshold)
     {
         sum += model[i] * feature[i];
     }
-    if (sum >= thredshold)
+    if (sum + thredshold >= 0)
         label = 1;
     else
         label = 0;
